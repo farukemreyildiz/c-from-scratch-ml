@@ -24,14 +24,14 @@
 #define DATASET_SIZE 400
 #define EPOCHS 100
 #define LEARNING_RATE 0.01
-#define TRAIN_SIZE (int)(DATASET_SIZE * TRAIN_RATIO) // Eðitim seti boyutu 
+#define TRAIN_SIZE (int)(DATASET_SIZE * TRAIN_RATIO) // EÃ°itim seti boyutu 
 #define TEST_SIZE (DATASET_SIZE - TRAIN_SIZE) // Test seti boyutu
 
 
 
 
 
-typedef struct {//piksel ve etikete ulaþmak için yapý
+typedef struct {//piksel ve etikete ulaÃ¾mak iÃ§in yapÃ½
     float pixels[IMAGE_SIZE + 1];
     int label;
 } Image;
@@ -39,7 +39,7 @@ typedef struct {//piksel ve etikete ulaþmak için yapý
 void read_pgm(const char *filename, float *buffer) {
     FILE *file = fopen(filename, "rb");
     if (!file) {
-        printf("Dosya açýlamadý: %s\n", filename);
+        printf("Dosya aÃ§Ã½lamadÃ½: %s\n", filename);
         exit(1);
     }
 
@@ -100,15 +100,15 @@ void create_datasets_from_directory(const char *directory, int label, Image **im
 
 
 
-float tanh_activation(float x) {//tanh ý hesaplar
+float tanh_activation(float x) {//tanh Ã½ hesaplar
  return tanh(x); 
  }
 
- float tanh_derivative(float x) { //tanh ýn türevini hesaplar
+ float tanh_derivative(float x) { //tanh Ã½n tÃ¼revini hesaplar
  	float tanh_x = tanh(x);
  	 return 1 - tanh_x * tanh_x; 
  }
-void initialize_weights(float *w, int size,double value) {//aðýrlýk deðerlerini girer
+void initialize_weights(float *w, int size,double value) {//aÃ°Ã½rlÃ½k deÃ°erlerini girer
 	int i;
 	//float j=((float)rand() / (float)(RAND_MAX)) * 2.0 - 1.0;
  for (i = 0; i < size; ++i) { 
@@ -119,55 +119,55 @@ void save_weights(const char *filename, float *w, int size,int epoch) {
 	FILE *file = fopen(filename, "a");
 	int i; 
 	if (file == NULL) { 
-	printf("Dosya açýlamadý: %s\n", filename); 
+	printf("Dosya aÃ§Ã½lamadÃ½: %s\n", filename); 
 	return; 
 	} 
 	fprintf(file, "Epoch %d:\n",epoch); 
 	for (i = 0; i < size; ++i) { 
 	fprintf(file, "%f\n", w[i]); 
 	} 
-	fprintf(file, "\n"); // Her epoch sonrasý boþluk býrak fclose(file);
+	fprintf(file, "\n"); // Her epoch sonrasÃ½ boÃ¾luk bÃ½rak fclose(file);
 	fclose(file);
 	}
 void gradient_descent(Image *train_set, Image *test_set, int train_size, int test_size, float *w, float *train_losses, float *test_losses, float *train_accuracies, float *test_accuracies,float *times) {
     int epoch, i, j;
 	float learning_rate = 0.1;
-	clock_t start,end; 	  //zamaný ölçmek için tanýmlamalar
+	clock_t start,end; 	  //zamanÃ½ Ã¶lÃ§mek iÃ§in tanÃ½mlamalar
 	const char *filename = "gdweights1.txt";
-    for (epoch = 0; epoch < EPOCHS; ++epoch) { //100 iterasyona sahip EPOCHS'u yukarýda tanýmladýk
+    for (epoch = 0; epoch < EPOCHS; ++epoch) { //100 iterasyona sahip EPOCHS'u yukarÃ½da tanÃ½mladÃ½k
         float total_loss = 0.0; 
-        float gradients[V] = {0.0}; //gradientlarý her iterasyonda sýfýrlýyoruz
-        start = clock();// her iterasyonun süresini hesaplýyoruz
+        float gradients[V] = {0.0}; //gradientlarÃ½ her iterasyonda sÃ½fÃ½rlÃ½yoruz
+        start = clock();// her iterasyonun sÃ¼resini hesaplÃ½yoruz
 
         for (i = 0; i < train_size; ++i) {
-            Image img = train_set[i];//eðitim kümesindeki her görseli kullanýyoruz
-            float y_true = img.label;//img  yapýsýndan görselin sýnýfýný alýyoruz
+            Image img = train_set[i];//eÃ°itim kÃ¼mesindeki her gÃ¶rseli kullanÃ½yoruz
+            float y_true = img.label;//img  yapÃ½sÃ½ndan gÃ¶rselin sÃ½nÃ½fÃ½nÃ½ alÃ½yoruz
             float y_pred = 0.0;
 
             
             for (j = 0; j < V; ++j) {
-                y_pred += w[j] * img.pixels[j];//aðýrlýk deðerleri ve piksellerin çarpýmý ile ypred deðiþkenini elde ediyoruz
+                y_pred += w[j] * img.pixels[j];//aÃ°Ã½rlÃ½k deÃ°erleri ve piksellerin Ã§arpÃ½mÃ½ ile ypred deÃ°iÃ¾kenini elde ediyoruz
             }
-            y_pred = tanh_activation(y_pred);//tanh modelinde y_pred deðerini kullanarak label'ý tahmin ediyoruz
+            y_pred = tanh_activation(y_pred);//tanh modelinde y_pred deÃ°erini kullanarak label'Ã½ tahmin ediyoruz
 
             
-            float error = y_true - y_pred;//gerçek deðer ile tahmini çýkartarak hatamýzý ölçüyoruz
+            float error = y_true - y_pred;//gerÃ§ek deÃ°er ile tahmini Ã§Ã½kartarak hatamÃ½zÃ½ Ã¶lÃ§Ã¼yoruz
             total_loss += error * error; 
 
             
             for (j = 0; j < V; ++j) {
-                gradients[j] += -2.0 * error * tanh_derivative(y_pred) * img.pixels[j];//her piksel deðeri için gradientlar hesaplanýr
+                gradients[j] += -2.0 * error * tanh_derivative(y_pred) * img.pixels[j];//her piksel deÃ°eri iÃ§in gradientlar hesaplanÃ½r
             }
         }
 
       
         for (j = 0; j < V; ++j) {
-            w[j] -= learning_rate * gradients[j] / train_size;//hesapladýðýmýz gradientlarý kullanarak aðýrlýk deðerlerini güncelleriz
+            w[j] -= learning_rate * gradients[j] / train_size;//hesapladÃ½Ã°Ã½mÃ½z gradientlarÃ½ kullanarak aÃ°Ã½rlÃ½k deÃ°erlerini gÃ¼ncelleriz
         }
 
-        train_losses[epoch] = total_loss / train_size;//iterasyondaki loss deðerlerini kaydederiz
+        train_losses[epoch] = total_loss / train_size;//iterasyondaki loss deÃ°erlerini kaydederiz
 		
-		//eðitim kümesinin doðruluðunu hesaplama
+		//eÃ°itim kÃ¼mesinin doÃ°ruluÃ°unu hesaplama
         int correct_predictions = 0;
         for (i = 0; i < train_size; ++i) {
             float y_pred = 0.0;
@@ -183,7 +183,7 @@ void gradient_descent(Image *train_set, Image *test_set, int train_size, int tes
 		
         float total_test_loss = 0.0;
         float acc = 0.0;
-        for (i = 0; i < test_size; ++i) {//yukarýda eðitim kümesi için yaptýklarýmýz test içinde yaparýz
+        for (i = 0; i < test_size; ++i) {//yukarÃ½da eÃ°itim kÃ¼mesi iÃ§in yaptÃ½klarÃ½mÃ½z test iÃ§inde yaparÃ½z
             Image img = test_set[i];
             float y_true = img.label;
             float y_pred = 0.0;
@@ -203,7 +203,7 @@ void gradient_descent(Image *train_set, Image *test_set, int train_size, int tes
 
         test_accuracies[epoch] = acc / test_size;
         test_losses[epoch] = total_test_loss / test_size;
-   		end = clock(); // zamaný durdurur ve kaydederiz
+   		end = clock(); // zamanÃ½ durdurur ve kaydederiz
 		times[epoch] = ((float)(end - start)) / CLOCKS_PER_SEC;
 		//save_weights(filename, w,V,epoch);
    }	
@@ -213,7 +213,7 @@ void gradient_descent(Image *train_set, Image *test_set, int train_size, int tes
 	int epoch;
 	
 	for (epoch=0;epoch<EPOCHS;epoch++){
-	    printf("Epoch %d   Train Loss %f   Test Loss %f   Eðitim Doðruluðu %f   Test Doðruluðu %f\n",
+	    printf("Epoch %d   Train Loss %f   Test Loss %f   EÃ°itim DoÃ°ruluÃ°u %f   Test DoÃ°ruluÃ°u %f\n",
         epoch, train_losses[epoch], test_losses[epoch], train_accuracies[epoch], test_accuracies[epoch]);
 		
 	}
@@ -226,9 +226,9 @@ void stochastic_gradient_descent(Image *train_set, Image *test_set, int train_si
     for (epoch = 0; epoch < EPOCHS; ++epoch) {
         start = clock();
 		float total_loss = 0.0;
-		randIndex = rand() % (int)(train_size);//veriyi  rastgele seçeriz
+		randIndex = rand() % (int)(train_size);//veriyi  rastgele seÃ§eriz
         Image img = train_set[randIndex];
-        for (i = 0; i < train_size;i+=batch_size) {//verinin belli bir miktar böleriz batch size ile
+        for (i = 0; i < train_size;i+=batch_size) {//verinin belli bir miktar bÃ¶leriz batch size ile
             float y_true = img.label;
             float y_pred = 0.0;
 			
@@ -243,7 +243,7 @@ void stochastic_gradient_descent(Image *train_set, Image *test_set, int train_si
             total_loss += error * error;
 
             for (j = 0; j < V; ++j) {
-                float gradient = -2.0 * error * tanh_derivative(y_pred) * img.pixels[j];//gradient descent ile farký bir diziye kayýt etmediðimizden daha hýzlý iþliyor
+                float gradient = -2.0 * error * tanh_derivative(y_pred) * img.pixels[j];//gradient descent ile farkÃ½ bir diziye kayÃ½t etmediÃ°imizden daha hÃ½zlÃ½ iÃ¾liyor
                 w[j] -= learning_rate * gradient;
             }
         }
@@ -323,10 +323,10 @@ void adam_optimizer(Image *train_set, Image *test_set, int train_size, int test_
 
             for (j = 0; j < V; ++j) {
                 float gradient = -2.0 * error * tanh_derivative(y_pred) * img.pixels[j];
-                mt[j] = beta1 * mt[j] + (1 - beta1) * gradient;//momentum bir önceki veriyi kullanarak daha dengeli bir güncelleme saðlar
-                vt[j] = beta2 * vt[j] + (1 - beta2) * gradient * gradient;//momentumdan farký gradientýn karesini alýr ve bu sayede büyük sapmalarý azaltýr
+                mt[j] = beta1 * mt[j] + (1 - beta1) * gradient;//momentum bir Ã¶nceki veriyi kullanarak daha dengeli bir gÃ¼ncelleme saÃ°lar
+                vt[j] = beta2 * vt[j] + (1 - beta2) * gradient * gradient;//momentumdan farkÃ½ gradientÃ½n karesini alÃ½r ve bu sayede bÃ¼yÃ¼k sapmalarÃ½ azaltÃ½r
 
-                float mt_hat = mt[j] / (1 - pow(beta1, epoch + 1));//baþlangýçta düþük deðerler olacaðýndan bunu engellemek için kullanýlýr
+                float mt_hat = mt[j] / (1 - pow(beta1, epoch + 1));//baÃ¾langÃ½Ã§ta dÃ¼Ã¾Ã¼k deÃ°erler olacaÃ°Ã½ndan bunu engellemek iÃ§in kullanÃ½lÃ½r
                 float vt_hat = vt[j] / (1 - pow(beta2, epoch + 1));
 
                 w[j] -= learning_rate * mt_hat / (sqrt(vt_hat) + epsilon);
@@ -408,13 +408,13 @@ float evaluate_accuracy(float *weights, Image *dataset, int dataset_size) {
 void results(const char *method, float *train_losses, float *test_losses, float *train_accuracies, float *test_accuracies,float value,float *times,float *weights) {
     int epoch;
     char filename[50];
-    sprintf(filename, "%f_%s.txt",value, method);//lost, accuracy, time verilerini tutmak için dosya
+    sprintf(filename, "%f_%s.txt",value, method);//lost, accuracy, time verilerini tutmak iÃ§in dosya
     FILE *file = fopen(filename, "w");
-    //sprintf(filename, "agirlik%f_%s.txt",value, method);//aðýrlýk deðerlerini tutmak için dosya 
+    //sprintf(filename, "agirlik%f_%s.txt",value, method);//aÃ°Ã½rlÃ½k deÃ°erlerini tutmak iÃ§in dosya 
     //FILE *file1 = fopen(filename, "w");
     if(file != NULL) {
         for (epoch = 0; epoch < EPOCHS; epoch++) {
-            printf("Epoch %d   Train Loss %f   Test Loss %f   Eðitim Doðruluðu %f   Test Doðruluðu %f zaman %f\n",
+            printf("Epoch %d   Train Loss %f   Test Loss %f   EÃ°itim DoÃ°ruluÃ°u %f   Test DoÃ°ruluÃ°u %f zaman %f\n",
                    epoch, train_losses[epoch], test_losses[epoch], train_accuracies[epoch], test_accuracies[epoch],times[epoch]);
 
 			fprintf(file, "Epoch %d\n", epoch + 1);
@@ -422,7 +422,7 @@ void results(const char *method, float *train_losses, float *test_losses, float 
             fprintf(file, "Test Loss: %f\n", test_losses[epoch]);
             fprintf(file, "Train Accuracy: %f\n", train_accuracies[epoch]);
             fprintf(file, "Test Accuracy: %f\n", test_accuracies[epoch]);
-            fprintf(file, "Süre: %f\n", times[epoch]);
+            fprintf(file, "SÃ¼re: %f\n", times[epoch]);
         }
        /* for(epoch =0 ; epoch<V-1;epoch++){
         	fprintf(file1, "%f ",weights[epoch]);
@@ -437,7 +437,7 @@ void results(const char *method, float *train_losses, float *test_losses, float 
         
     } 
 	else {
-        printf("Dosya oluþturulamadý: %s\n", filename);
+        printf("Dosya oluÃ¾turulamadÃ½: %s\n", filename);
     }
 }
 
@@ -454,17 +454,17 @@ void evaluate_model(const char *method, Image *train_set, int train_size, Image 
     int i, j, epoch;
     int length = EPOCHS;
 
-    initialize_weights(w, V, value);// baþlangýç aðýrlýk deðerlerini yazar 
+    initialize_weights(w, V, value);// baÃ¾langÃ½Ã§ aÃ°Ã½rlÃ½k deÃ°erlerini yazar 
 	
-    optimizer(train_set, test_set, train_size, test_size, w, train_losses, test_losses, train_accuracies, test_accuracies,times);//algoritmayý çaðýrýr
+    optimizer(train_set, test_set, train_size, test_size, w, train_losses, test_losses, train_accuracies, test_accuracies,times);//algoritmayÃ½ Ã§aÃ°Ã½rÃ½r
    
-  results(method,train_losses, test_losses, train_accuracies, test_accuracies,value,times,w);// dosya iþlemlerini yapmak için gereken fonksiyonu çaðýrýr
+  results(method,train_losses, test_losses, train_accuracies, test_accuracies,value,times,w);// dosya iÃ¾lemlerini yapmak iÃ§in gereken fonksiyonu Ã§aÃ°Ã½rÃ½r
 
    
-	//çok bir iþe yaramýyorlar ama býraktým son doðruluk deðerlerini yazmak için fonksiyon çaðýrýr
+	//Ã§ok bir iÃ¾e yaramÃ½yorlar ama bÃ½raktÃ½m son doÃ°ruluk deÃ°erlerini yazmak iÃ§in fonksiyon Ã§aÃ°Ã½rÃ½r
     float test_accuracy = evaluate_accuracy(w, test_set, test_size);
     float train_accuracy = evaluate_accuracy(w, train_set, train_size);
-    printf("%s Eðitim Doðruluðu: %.2f, Test Doðruluðu: %.2f\n", method, 100*train_accuracy, 100*test_accuracy);
+    printf("%s EÃ°itim DoÃ°ruluÃ°u: %.2f, Test DoÃ°ruluÃ°u: %.2f\n", method, 100*train_accuracy, 100*test_accuracy);
 }
 
 
@@ -479,8 +479,8 @@ void evaluate_model(const char *method, Image *train_set, int train_size, Image 
 
 
 int main() {
-    const char *directory1 = "C:\\Users\\faruk\\Desktop\\arþift\\diff part1\\tro";
-    const char *directory2 = "C:\\Users\\faruk\\Desktop\\arþift\\diff part1\\shr"; 
+    const char *directory1 = "C:\\Users\\faruk\\Desktop\\arÃ¾ift\\diff part1\\tro";
+    const char *directory2 = "C:\\Users\\faruk\\Desktop\\arÃ¾ift\\diff part1\\shr"; 
 	int i,trial;
     int capacity = 10;
     Image *images = (Image*)malloc(capacity * sizeof(Image));
@@ -499,7 +499,7 @@ int main() {
     Image *train_set = images;
     Image *test_set = images + train_size;
 	printf("Training Set Labels:\n");
-	 for ( i = 0; i < train_size; i++) {//data setin daðýlýmýný kontrol eder
+	 for ( i = 0; i < train_size; i++) {//data setin daÃ°Ã½lÃ½mÃ½nÃ½ kontrol eder
 	 	 printf("Image %d: Label %d\n", i, train_set[i].label);
 	  	 } 
 	   	 printf("Test Set Labels:\n");
@@ -518,7 +518,7 @@ int main() {
     printf("Training set size: %d\n", train_size);
     printf("Test set size: %d\n", test_size);
 	double value=10.0;
- for ( trial = 0; trial < NUM_TRIALS; ++trial) {// 5 tane aðýrlýk deðerinde algoritmalarý dener
+ for ( trial = 0; trial < NUM_TRIALS; ++trial) {// 5 tane aÃ°Ã½rlÃ½k deÃ°erinde algoritmalarÃ½ dener
         printf("\nDeneme %d:\n", trial + 1);
 		value/=10;//((float)rand() / (float)(RAND_MAX)) * 0.2 - 0.1;
         evaluate_model("Gradient Descent", train_set, train_size, test_set, test_size, gradient_descent,value);
